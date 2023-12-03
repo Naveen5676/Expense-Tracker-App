@@ -1,12 +1,23 @@
-
-import './App.css';
-import { Fragment } from 'react';
-import Signuppage from './Components/Signuppage';
+import "./App.css";
+import { Fragment } from "react";
+import Signuppage from "./Components/Signuppage";
+import { Route, Redirect, Switch } from "react-router-dom";
+import Home from "./Components/Home";
 
 function App() {
   return (
     <Fragment>
-      <Signuppage/>
+      <Switch>
+      <Route path="/" exact>
+          <Redirect to="/login" />
+        </Route>
+        <Route path="/login">
+          <Signuppage />
+        </Route>
+        <Route path="/home">
+          <Home />
+        </Route>
+      </Switch>
     </Fragment>
   );
 }
