@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import React, { Fragment, useRef, useState } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {useHistory} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 
 const Signuppage = () => {
   const enetredemail = useRef();
@@ -11,9 +11,9 @@ const Signuppage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const history = useHistory();
 
-  const onClickHandler=()=>{
-    setIsLogin((prevvalue)=>!prevvalue);
-  }
+  const onClickHandler = () => {
+    setIsLogin((prevvalue) => !prevvalue);
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -21,9 +21,9 @@ const Signuppage = () => {
     const pwd = enetredPwd.current.value;
     let renterdpwd; // Declare renterdpwd outside the block
 
-  if (!isLogin) {
-    renterdpwd = renenterdpwd.current.value; // Assign value inside the block
-  }
+    if (!isLogin) {
+      renterdpwd = renenterdpwd.current.value; // Assign value inside the block
+    }
 
     if (isLogin) {
       fetch(
@@ -41,15 +41,16 @@ const Signuppage = () => {
         .then((res) => {
           if (res.ok) {
             alert("logged in successfully");
-            history.replace('/home');
+            history.replace("/home");
           } else {
             throw new Error("error");
           }
           return res.json();
-        }).then((data)=>{
+        })
+        .then((data) => {
           console.log(data);
-          let idToken = data.idToken
-          localStorage.setItem('idToken',idToken )
+          let idToken = data.idToken;
+          localStorage.setItem("idToken", idToken);
         })
 
         .catch((err) => {
@@ -105,7 +106,7 @@ const Signuppage = () => {
                 className="text-center mt-1"
                 style={{ color: "white", fontSize: "30px", fontWeight: "bold" }}
               >
-               {isLogin ? 'login':'Sign Up'}
+                {isLogin ? "login" : "Sign Up"}
               </Card.Title>
               <Card.Body style={{ fontSize: "25px" }}>
                 <form onSubmit={submitHandler}>
@@ -125,20 +126,26 @@ const Signuppage = () => {
                     ref={enetredPwd}
                   ></input>
 
-                 {!isLogin &&<input
-                    type="password"
-                    placeholder="Re-enter Password"
-                    className="form-control mb-3"
-                    ref={renenterdpwd}
-                    {...(!isLogin ? { required: true } : {required: false})}
-                  ></input>}
+                  {!isLogin && (
+                    <input
+                      type="password"
+                      placeholder="Re-enter Password"
+                      className="form-control mb-3"
+                      ref={renenterdpwd}
+                      {...(!isLogin ? { required: true } : { required: false })}
+                    ></input>
+                  )}
 
                   <Button type="submit" variant="primary" block>
-                  {isLogin ? "Login" : "create Account"}
+                    {isLogin ? "Login" : "create Account"}
                   </Button>
                 </form>
               </Card.Body>
-              <Button onClick={onClickHandler}  variant="dark">{isLogin ? 'Dont Have an account? Click Here': 'Have an account? click here to login'} </Button>
+              <Button onClick={onClickHandler} variant="dark">
+                {isLogin
+                  ? "Dont Have an account? Click Here"
+                  : "Have an account? click here to login"}{" "}
+              </Button>
             </Card>
           </Col>
         </Row>

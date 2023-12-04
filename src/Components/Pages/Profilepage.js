@@ -1,9 +1,35 @@
-import React, { Fragment, useRef } from "react";
+import React, { Fragment, useEffect, useRef } from "react";
 import { Container, Card, Button, Row, Col } from "react-bootstrap";
 
 const Profilepage = () => {
   const enetredname = useRef();
   const enetredphotourl = useRef();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyA20QgzIbGGBJE2GjAckzUje0TsQ023o2M",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              idToken: localStorage.getItem("idToken"),
+            }),
+          }
+        );
+        const data = await response.json();
+        console.log("get user details", data);
+
+        const users = data.users[0];
+        enetredname.current.value = users.displayName;
+        enetredphotourl.current.value = users.photoUrl;
+      } catch (error) {
+        console.error("Error in useEffect:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const submitHandler = (e) => {
     e.preventDefault();

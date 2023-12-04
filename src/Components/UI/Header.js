@@ -1,9 +1,12 @@
 import React from "react";
-import { Container, Navbar, Nav, Card } from "react-bootstrap";
+import { Container, Navbar, Nav, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 
 const Header = () => {
+  const logoutHandler=()=>{
+    localStorage.removeItem('idToken')
+  }
   return (
     <Navbar bg="dark">
       <Container>
@@ -24,6 +27,12 @@ const Header = () => {
               </Card.Text>
             </Card.Body>
           </Card>
+          <Button
+            onClick={logoutHandler}
+            style={{ borderRadius: "25px", backgroundColor: "red" }}
+          >
+            Logout
+          </Button>
         </Nav>
       </Container>
     </Navbar>
