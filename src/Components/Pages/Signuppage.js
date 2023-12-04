@@ -1,6 +1,7 @@
 import Button from "react-bootstrap/Button";
 import React, { Fragment, useRef, useState } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useHistory } from "react-router-dom";
 
@@ -135,7 +136,17 @@ const Signuppage = () => {
                       {...(!isLogin ? { required: true } : { required: false })}
                     ></input>
                   )}
-
+                  {isLogin && (
+                    <div>
+                      <NavLink
+                        to="/forgotpwd"
+                        style={{ fontSize: "18px", color: "yellow" }}
+                        className="text-center"
+                      >
+                        Forgot Password?
+                      </NavLink>
+                    </div>
+                  )}
                   <Button type="submit" variant="primary" block>
                     {isLogin ? "Login" : "create Account"}
                   </Button>

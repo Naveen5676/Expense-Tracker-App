@@ -5,14 +5,14 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import Header from "./Components/UI/Header";
 import Profilepage from "./Components/Pages/Profilepage";
 import Home from "./Components/Pages/Home";
-
+import Forgotpassword from "./Components/Pages/Forgotpassword";
 
 function App() {
   return (
     <Fragment>
-      <Header/>
+      <Header />
       <Switch>
-      <Route path="/" exact>
+        <Route path="/" exact>
           <Redirect to="/login" />
         </Route>
         <Route path="/login">
@@ -21,8 +21,11 @@ function App() {
         <Route path="/home">
           <Home />
         </Route>
-        <Route path='/profile'>
-          <Profilepage/>
+        <Route path="/profile">
+          <Profilepage />
+        </Route>
+        <Route path="/forgotpwd">
+          <Forgotpassword />
         </Route>
       </Switch>
     </Fragment>
