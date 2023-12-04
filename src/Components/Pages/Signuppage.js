@@ -45,7 +45,13 @@ const Signuppage = () => {
           } else {
             throw new Error("error");
           }
+          return res.json();
+        }).then((data)=>{
+          console.log(data);
+          let idToken = data.idToken
+          localStorage.setItem('idToken',idToken )
         })
+
         .catch((err) => {
           alert(err);
         });
@@ -132,7 +138,7 @@ const Signuppage = () => {
                   </Button>
                 </form>
               </Card.Body>
-              <Button onClick={onClickHandler} className="mt-3" variant="dark">{isLogin ? 'Dont Have an account? Click Here': 'Have an account? click here to login'} </Button>
+              <Button onClick={onClickHandler}  variant="dark">{isLogin ? 'Dont Have an account? Click Here': 'Have an account? click here to login'} </Button>
             </Card>
           </Col>
         </Row>
