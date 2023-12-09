@@ -4,6 +4,8 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../Store/Authslice";
 
 const Signuppage = () => {
   const enetredemail = useRef();
@@ -11,6 +13,8 @@ const Signuppage = () => {
   const renenterdpwd = useRef();
   const [isLogin, setIsLogin] = useState(true);
   const history = useHistory();
+
+  const dispatch = useDispatch();
 
   const onClickHandler = () => {
     setIsLogin((prevvalue) => !prevvalue);
@@ -41,7 +45,7 @@ const Signuppage = () => {
       )
         .then((res) => {
           if (res.ok) {
-            alert("logged in successfully");
+            //alert("logged in successfully");
             history.replace("/home");
           } else {
             throw new Error("error");
@@ -51,7 +55,7 @@ const Signuppage = () => {
         .then((data) => {
           console.log(data);
           let idToken = data.idToken;
-          localStorage.setItem("idToken", idToken);
+          dispatch(authActions.login(idToken));
         })
 
         .catch((err) => {

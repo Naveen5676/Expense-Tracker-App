@@ -1,12 +1,17 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Card, Container, Row, Col, Button, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useDispatch, useSelector } from "react-redux";
+import ExpenseSlice, { expenseAction } from "../../Store/ExpenseSlice";
 
 const DailyExpenses = () => {
   const [expense, setExpense] = useState([]);
   const enetredAmount = useRef();
   const enetredDesc = useRef();
   const EnetredCategory = useRef();
+  const dispatch = useDispatch();
+  const expensedata = useSelector((state) => state.expense.store);
+  console.log("expensedata", expensedata);
 
   useEffect(() => {
     const getdata = async () => {
@@ -23,6 +28,7 @@ const DailyExpenses = () => {
         }));
 
         setExpense(dataArray);
+        dispatch(expenseAction.saveExpense(dataArray));
       }
     };
     getdata();
@@ -57,6 +63,9 @@ const DailyExpenses = () => {
         if (!res.ok) {
           throw new Error("error");
         }
+        if (res.ok) {
+          dispatch(expenseAction.saveExpense(data));
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -75,6 +84,10 @@ const DailyExpenses = () => {
       .then((res) => {
         if (res.ok) {
           alert("item deleted successfully");
+          dispatch(expenseAction.deleteExpense(id));
+          setExpense((prevExpense) =>
+            prevExpense.filter((item) => item.id !== id)
+          );
         } else {
           throw new Error("error");
         }
@@ -92,6 +105,8 @@ const DailyExpenses = () => {
     setExpense((prevExpense) =>
       prevExpense.filter((item) => item.id !== data.id)
     );
+
+    dispatch(expenseAction.deleteExpense(data.id));
 
     fetch(
       `https://expensetracker-9c3dc-default-rtdb.firebaseio.com/expenses/${data.id}.json`,
