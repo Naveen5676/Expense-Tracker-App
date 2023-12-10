@@ -16,6 +16,9 @@ const authSlice = createSlice({
       state.isLoggedin = false;
       localStorage.removeItem("idToken");
     },
+    rerenderlogin(state) {
+      state.isLoggedin = true;
+    },
   },
 });
 

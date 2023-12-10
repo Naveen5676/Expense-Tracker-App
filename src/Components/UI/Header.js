@@ -5,15 +5,27 @@ import "bootstrap/dist/css/bootstrap.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../../Store/Authslice";
+import { Themeactions } from "../../Store/ThemeSlice";
+import { useEffect } from "react";
 
 const Header = () => {
   const [verified, setVerified] = useState(false);
   const history = useHistory();
   const isloggedin = useSelector((state) => state.auth.isLoggedin);
   const idToken = useSelector((state) => state.auth.token);
+  const premium = useSelector((state) => state.theme.darkTheme);
+  const btnpremium = useSelector((state) => state.expense.premium);
   const dispatch = useDispatch();
-  console.log("showlogout", isloggedin);
+  console.log("btnpremium", btnpremium);
+  //console.log("showlogin", isloggedin);
+  //console.log('premium', premium)
 
+  useEffect(() => {
+    let id = localStorage.getItem("idToken");
+    if (id) {
+      dispatch(authActions.rerenderlogin());
+    }
+  }, []);
   const verifiemailHandler = () => {
     fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyA20QgzIbGGBJE2GjAckzUje0TsQ023o2M",
@@ -43,9 +55,13 @@ const Header = () => {
     dispatch(authActions.logout());
     history.replace("/login");
   };
+
+  const setPremiumHandler = () => {
+    dispatch(Themeactions.setDarkTheme());
+  };
   return (
     <Navbar bg="dark">
-      <Container>
+      <Container className="d-flex ">
         <Navbar.Brand className="text-white">
           Welcome To Expense Tracker
         </Navbar.Brand>
@@ -64,6 +80,15 @@ const Header = () => {
                 </Card.Text>
               </Card.Body>
             </Card>
+            {btnpremium && (
+              <Button
+                style={{ borderRadius: "20px" }}
+                onClick={setPremiumHandler}
+                className="m-2"
+              >
+                {premium ? "Premium Activated" : "Activate Premium"}
+              </Button>
+            )}
             <Button
               style={{ borderRadius: "20px" }}
               onClick={verifiemailHandler}
