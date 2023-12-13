@@ -32,14 +32,14 @@ const DailyExpenses = () => {
 
         if (greaterthan10000) {
           dispatch(expenseAction.updatePremium());
-        }
+        } 
 
         setExpense(dataArray);
         dispatch(expenseAction.saveExpense(dataArray));
       }
     };
     getdata();
-  }, []);
+  }, [dispatch]);
 
   const formsubmitHnadler = (e) => {
     e.preventDefault();
@@ -76,17 +76,19 @@ const DailyExpenses = () => {
         return res.json();
       })
       .then((data) => {
-        const activatePremium = data.some((item) => item.amount >= 10000);
-
-        if (activatePremium) {
-          dispatch(expenseAction.updatePremium());
-        }
+       
       })
       .catch((err) => {
         console.log(err);
       });
 
     setExpense((prevdata) => [...prevdata, data]);
+    const activatePremium = expense.map((item) => item.amount >= 10000);
+
+    if (activatePremium) {
+      dispatch(expenseAction.updatePremium());
+    }
+    
   };
 
   const deleteHandler = (id) => {
@@ -99,13 +101,15 @@ const DailyExpenses = () => {
       .then((res) => {
         if (res.ok) {
           alert("item deleted successfully");
-          dispatch(expenseAction.deleteExpense(id));
-          setExpense((prevExpense) =>
-            prevExpense.filter((item) => item.id !== id)
-          );
+          return res.json();
         } else {
           throw new Error("error");
         }
+      }).then(()=>{
+        dispatch(expenseAction.deleteExpense(id));
+        setExpense((prevExpense) =>
+          prevExpense.filter((item) => item.id !== id)
+        );
       })
       .catch((err) => {
         console.log(err);

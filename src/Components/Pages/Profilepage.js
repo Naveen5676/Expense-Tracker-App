@@ -18,7 +18,7 @@ const Profilepage = () => {
           }
         );
         const data = await response.json();
-        //console.log("get user details", data);
+        console.log("get user details", data);
 
         const users = data.users[0];
         enetredname.current.value = users.displayName;
