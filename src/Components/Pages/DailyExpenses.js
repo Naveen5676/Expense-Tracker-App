@@ -269,7 +269,7 @@ const DailyExpenses = () => {
                   </thead>
 
                   {expense.map((data, index) => (
-                    <tbody>
+                    <tbody key={data.id}>
                       <tr key={index} className="text-center">
                         <td>{data.amount}</td>
                         <td>{data.description}</td>

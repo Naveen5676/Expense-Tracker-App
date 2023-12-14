@@ -61,10 +61,14 @@ const Header = () => {
   };
   return (
     <Navbar bg="dark">
+  
       <Container className="d-flex ">
+     
         <Navbar.Brand className="text-white">
           Welcome To Expense Tracker
+          <h1>test</h1>
         </Navbar.Brand>
+        
         {isloggedin && (
           <Nav>
             <Card style={{ backgroundColor: "#ffc0cb", borderRadius: "20px" }}>
