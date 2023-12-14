@@ -15,6 +15,7 @@ const authSlice = createSlice({
       state.token = "";
       state.isLoggedin = false;
       localStorage.removeItem("idToken");
+      localStorage.removeItem("email");
     },
     rerenderlogin(state) {
       state.isLoggedin = true;

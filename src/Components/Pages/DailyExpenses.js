@@ -16,8 +16,9 @@ const DailyExpenses = () => {
 
   useEffect(() => {
     const getdata = async () => {
+      let email = localStorage.getItem("email");
       const response = await fetch(
-        "https://expensetracker-9c3dc-default-rtdb.firebaseio.com/expenses.json"
+        `https://expensetracker-9c3dc-default-rtdb.firebaseio.com/${email}.json`
       );
       const firebasedata = await response.json();
 
@@ -32,7 +33,7 @@ const DailyExpenses = () => {
 
         if (greaterthan10000) {
           dispatch(expenseAction.updatePremium());
-        } 
+        }
 
         setExpense(dataArray);
         dispatch(expenseAction.saveExpense(dataArray));
@@ -54,8 +55,9 @@ const DailyExpenses = () => {
       category: entcategory,
     };
 
+    let email = localStorage.getItem("email");
     fetch(
-      "https://expensetracker-9c3dc-default-rtdb.firebaseio.com/expenses.json",
+      `https://expensetracker-9c3dc-default-rtdb.firebaseio.com/${email}.json`,
       {
         method: "POST",
         body: JSON.stringify({
@@ -75,25 +77,23 @@ const DailyExpenses = () => {
         }
         return res.json();
       })
-      .then((data) => {
-       
-      })
+      .then((data) => {})
       .catch((err) => {
         console.log(err);
       });
 
     setExpense((prevdata) => [...prevdata, data]);
-    const activatePremium = expense.map((item) => item.amount >= 10000);
+    const activatePremium = expense.map((item) => item.amount > 10000);
 
     if (activatePremium) {
       dispatch(expenseAction.updatePremium());
     }
-    
   };
 
   const deleteHandler = (id) => {
+    let email = localStorage.getItem("email");
     fetch(
-      `https://expensetracker-9c3dc-default-rtdb.firebaseio.com/expenses/${id}.json`,
+      `https://expensetracker-9c3dc-default-rtdb.firebaseio.com/${email}/${id}.json`,
       {
         method: "DELETE",
       }
@@ -105,7 +105,8 @@ const DailyExpenses = () => {
         } else {
           throw new Error("error");
         }
-      }).then(()=>{
+      })
+      .then(() => {
         dispatch(expenseAction.deleteExpense(id));
         setExpense((prevExpense) =>
           prevExpense.filter((item) => item.id !== id)
@@ -126,9 +127,9 @@ const DailyExpenses = () => {
     );
 
     dispatch(expenseAction.deleteExpense(data.id));
-
+    let email = localStorage.getItem("email");
     fetch(
-      `https://expensetracker-9c3dc-default-rtdb.firebaseio.com/expenses/${data.id}.json`,
+      `https://expensetracker-9c3dc-default-rtdb.firebaseio.com/${email}/${data.id}.json`,
       {
         method: "DELETE",
       }
@@ -144,8 +145,9 @@ const DailyExpenses = () => {
   };
   const downlaodCSVHandler = () => {
     // Get all expense data from Firebase
+    let email = localStorage.getItem("email");
     fetch(
-      "https://expensetracker-9c3dc-default-rtdb.firebaseio.com/expenses.json"
+      `https://expensetracker-9c3dc-default-rtdb.firebaseio.com/${email}.json`
     )
       .then((response) => response.json())
       .then((firebasedata) => {

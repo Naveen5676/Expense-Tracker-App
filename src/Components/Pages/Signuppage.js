@@ -56,6 +56,9 @@ const Signuppage = () => {
           console.log(data);
           let idToken = data.idToken;
           dispatch(authActions.login(idToken));
+          // Remove "@" and "." from the email address
+          const updatedEmail = email.replace(/[@.]/g, "");
+          localStorage.setItem("email", updatedEmail);
         })
 
         .catch((err) => {
