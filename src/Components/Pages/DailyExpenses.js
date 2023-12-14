@@ -270,7 +270,7 @@ const DailyExpenses = () => {
 
                   {expense.map((data, index) => (
                     <tbody key={data.id}>
-                      <tr key={index} className="text-center">
+                      <tr className="text-center">
                         <td>{data.amount}</td>
                         <td>{data.description}</td>
                         <td>{data.category}</td>
@@ -299,7 +299,7 @@ const DailyExpenses = () => {
           </Row>
         </Container>
       </div>
-      <style jsx>{`
+      <style jsx="true">{`
         .dark-theme {
           background-color: #001f3f; /* Dark blue background color */
         }

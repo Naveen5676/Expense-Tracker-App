@@ -154,7 +154,7 @@ const Signuppage = () => {
                       </NavLink>
                     </div>
                   )}
-                  <Button type="submit" variant="primary" block>
+                  <Button type="submit" variant="primary" block="true">
                     {isLogin ? "Login" : "create Account"}
                   </Button>
                 </form>
