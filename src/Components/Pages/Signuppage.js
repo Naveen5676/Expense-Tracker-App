@@ -54,11 +54,12 @@ const Signuppage = () => {
         })
         .then((data) => {
           console.log(data);
-          let idToken = data.idToken;
-          dispatch(authActions.login(idToken));
+          let token = data.idToken;
+          let email = data.email; 
+          dispatch(authActions.login({ token, email }));
           // Remove "@" and "." from the email address
-          const updatedEmail = email.replace(/[@.]/g, "");
-          localStorage.setItem("email", updatedEmail);
+          // const updatedEmail = email.replace(/[@.]/g, "");
+          // localStorage.setItem("email", updatedEmail);
         })
 
         .catch((err) => {

@@ -25,7 +25,7 @@ const Header = () => {
     if (id) {
       dispatch(authActions.rerenderlogin());
     }
-  }, []);
+  }, [dispatch]);
   const verifiemailHandler = () => {
     fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyA20QgzIbGGBJE2GjAckzUje0TsQ023o2M",

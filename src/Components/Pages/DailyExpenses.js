@@ -16,31 +16,45 @@ const DailyExpenses = () => {
 
   useEffect(() => {
     const getdata = async () => {
-      let email = localStorage.getItem("email");
-      const response = await fetch(
-        `https://expensetracker-9c3dc-default-rtdb.firebaseio.com/${email}.json`
-      );
-      const firebasedata = await response.json();
-
-      if (firebasedata) {
-        // Convert the object to an array
-        const dataArray = Object.entries(firebasedata).map(([id, data]) => ({
-          id,
-          ...data,
-        }));
-
-        const greaterthan10000 = dataArray.some((item) => item.amount >= 10000);
-
-        if (greaterthan10000) {
-          dispatch(expenseAction.updatePremium());
+      try {
+        let email = localStorage.getItem("email");
+  
+        if (!email) {
+          console.error('Email not found in localStorage');
+          return;
         }
-
-        setExpense(dataArray);
-        dispatch(expenseAction.saveExpense(dataArray));
+  
+        const response = await fetch(
+          `https://expensetracker-9c3dc-default-rtdb.firebaseio.com/${email}.json`
+        );
+        const firebasedata = await response.json();
+  
+        if (firebasedata) {
+          // Convert the object to an array
+          const dataArray = Object.entries(firebasedata).map(([id, data]) => ({
+            id,
+            ...data,
+          }));
+  
+          const greaterthan10000 = dataArray.some((item) => item.amount >= 10000);
+  
+          if (greaterthan10000) {
+            dispatch(expenseAction.updatePremium());
+          }
+  
+          setExpense(dataArray);
+          dispatch(expenseAction.saveExpense(dataArray));
+  
+          console.log('useEffect - dataArray:', dataArray);
+        }
+      } catch (error) {
+        console.error('Error in useEffect:', error);
       }
     };
+  
     getdata();
-  }, [dispatch]);
+  }, []);
+  
 
   const formsubmitHnadler = (e) => {
     e.preventDefault();
@@ -77,7 +91,9 @@ const DailyExpenses = () => {
         }
         return res.json();
       })
-      .then((data) => {})
+      .then((data) => {
+      
+      })
       .catch((err) => {
         console.log(err);
       });
